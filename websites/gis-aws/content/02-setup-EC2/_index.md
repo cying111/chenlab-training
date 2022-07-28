@@ -11,11 +11,11 @@ This workshop section walks you through setting up your own EC2 Linux instance a
 This section covers:
 
 - Signing in to the AWS Management Console and exploring it.
-- Create an Amazon EC2 instance and the related configurations.
-- SSH into an EC2 instance and run Linux commands.
+- Creating an Amazon EC2 instance and the related configurations.
+- SSHing into an EC2 instance and run Linux commands.
 - Stopping and Terminating the Linux instance.  
 
 Proceed to page  
-***a. Sign in to AWS Console (via Event Engine)*** if you are attending the live training.  
+a.	**(Event Engine account for trainings)** [Sign in to AWS Console (via Event Engine)](http://slchen-lab-training.s3-website-ap-southeast-1.amazonaws.com/02-setup-ec2/02-eventengine.html) if you are attending the live training.  
 OR  
-***b. Sign in to AWS Console (direct sign-in)*** if you are going through this tutorial independently.  
+b.	**(Normal account after the training)** [Sign in to AWS Console (direct sign-in)](http://slchen-lab-training.s3-website-ap-southeast-1.amazonaws.com/02-setup-ec2/03-aws-console-login.html) if you are going through this tutorial independently.  

@@ -1,5 +1,5 @@
 +++
-title = "MOVE/REMOVE? Remote data transfer"
+title = "Add'l-2: Remote data transfer"
 weight = 150
 tags = ["tutorial", "dashboard", "ParallelCluster"]
 +++

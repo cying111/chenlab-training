@@ -1,6 +1,6 @@
 +++
-title = "e. RNA-Seq data-Bambu"
-weight = 120
+title = "Add'l-3: RNA-Seq data-Bambu"
+weight = 180
 tags = ["S3", "RNA-Seq", "Bambu"]
 +++
 
@@ -11,7 +11,7 @@ In this tutorial we will be using human cancer cell-line data from the [SG-NEx p
 
 ### Downloading reference genome and annotations
 
-As mentioned in #Bambu-Day 1, the default mode to run ***Bambu*** is using a set of aligned reads (bam files), reference genome annotations (gtf file, TxDb object, or bambuAnnotation object), and reference genome sequence (fasta file or BSgenome). Here we use the ensembl Grch 38 genome sequence and annotation files, which we have downloaded and stored in the SG-NEx data open S3 bucket. 
+As mentioned in #Bambu-Day 1, the default mode to run ***Bambu*** is using a set of aligned reads (bam files), reference genome annotations (gtf file, TxDb object, or bambuAnnotation object), and reference genome sequence (fasta file or BSgenome). Here we use the ensembl GRCh 38 genome sequence and annotation files, which we have downloaded and stored in the SG-NEx data open S3 bucket. 
 
 ```bash
 # create work directory
@@ -30,14 +30,14 @@ aws s3 cp --no-sign-request s3://sg-nex-data/data/annotations/gtf_file/Homo_sapi
 
 The SG-NEx project provides aligned reads that can be used directly with Bambu, however sometimes, raw fastq reads might be provided instead of aligned reads. In that case, alignment must be done first and can be done as follows:
 
-Note that we are aligning the reads to the genome fasta and not the transcriptome fasta as ***Bambu*** uses intron junctions to distingush novel transcripts.
+Note that we are aligning the reads to the genome fasta and not the transcriptome fasta as ***Bambu*** uses intron junctions to distinguish novel transcripts.
 
 ```bash
 # download fastq from s3 bucket
 aws s3 cp --no-sign-request s3://sg-nex-data/data/bambu_training/fastq/A549_directRNA_sample1.fastq.gz ./
 
-# align using Minimap2 
-minimap2 -ax splice -uf -k14 Homo_sapiens.GRCh38.dna.primary_assembly.fa A549_directRNA_sample1.fastq.gz > A549_directRNA_sample1.sam  #needs more than 4gb ram
+# align using Minimap2 - note this step needs more than 8GB of RAM, otherwise it will get killed automatically after a minute or so
+minimap2 -ax splice -uf -k14 Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa A549_directRNA_sample1.fastq.gz > A549_directRNA_sample1.sam
 samtools view -Sb A549_directRNA_sample1.sam | samtools sort -o A549_directRNA_sample1.bam
 samtools index A549_directRNA_sample1.bam
 ```
@@ -63,8 +63,10 @@ This bam file has a read mappability of `150602/184107 (81.8%)` by taking the ra
 
 ### Preparing data for ***Bambu***
 ```rscript
+R  
+
 # set work directory 
-setwd("bambu_training")
+setwd("bambu_training") #if you are in a different directory
 
 
 library(bambu)
@@ -124,7 +126,7 @@ rowData(se) #returns additional information about each transcript such as the ge
 The output can be written to files:
 
 ```rscript
-writeBambuOutput(se, path = "./")
+writeBambuOutput(se, path = "./")   
 ```
 
 The above command will write ***Bambu*** output to three files
@@ -196,7 +198,11 @@ aws s3 cp novel_annotations.UCSC.gtf s3://bucket/path/ --acl public-read
 Now go to https://genome.ucsc.edu/ in your browser                 
 My data > Custom Tracks > add custom tracks                   
 In the box labeled "Paste URLs or data" copy in path of the file you copied onto your bucket                             
-Remember to replace "bucket" and "path" with the real names and path                    
+
+To obtain the **S3 URL** of the object in the S3 bucket  
+-Click on the object name in the S3 bucket (here "novel_annotations.UCSC.gtf")  
+-Copy the link under "Object URL"  
+Remember to verify the correct "bucket" name and the "path"                     
 https://"bucket".s3.ap-southeast-1.amazonaws.com/"path"/novel_annotations.UCSC.gtf
 
 ![UCSC brower](/images/bambu/UCSC.png)
