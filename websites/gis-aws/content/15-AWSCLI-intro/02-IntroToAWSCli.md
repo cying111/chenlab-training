@@ -11,7 +11,7 @@ The [AWS CLI](https://aws.amazon.com/cli/) allows you to manage services using t
 Connect to an EC2 instance and paste the following command. AWS CLI is already installed on your machine, but this will initiate an update. There are a few ways to check this, depending on how it was installed
 
 ```bash
-sudo apt update && sudo apt upgrade; dpkg --list | grep awscli
+dpkg --list | grep awscli
 pip3 list | grep awscli
 ```
 
@@ -38,7 +38,7 @@ aws ec2 describe-key-pairs
 ```
 
 The above `describe-instances` and `describe-key-pairs` commands will likely fail because we did not set our AWS account's credentials: the access keys and the region. This results in a permissions error as credentials are required to access AWS resources such as EC2, S3, and so on (without them AWS CLI does not know which account you are referring to). You can enter those manually using the `aws configure` command.
-  
+
 As we have not yet configured the instance with the AWS account's credentials, the **~/.aws/** folder will not be available. Now let us go ahead with **aws configure**.
 
-[View Point 2 of the visual for difference between "Event Engine" and "Direct sign-in"](http://slchen-lab-training.s3-website-ap-southeast-1.amazonaws.com/01-hpc-overview/03-awsaccess.html).  
+[View Point 2 of the visual for difference between "Event Engine" and "Direct sign-in"]({{< ref "01-hpc-overview/03-awsaccess.html" >}}).
